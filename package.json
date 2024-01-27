@@ -1,0 +1,12 @@
+{
+  "name": "sb-simulate-oracle-jobs",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "@switchboard-xyz/common": "^2.3.16",
+    "typescript": "^5.0.0"
+  }
+}
