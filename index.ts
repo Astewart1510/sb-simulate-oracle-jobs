@@ -38,14 +38,15 @@ const jobs: OracleJob[] = [
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
 
   // Print the jobs that are being run.
-  jobs.forEach((job) => console.log(job.toYaml()));
+  const jobJson = JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) });
+  console.log(jobJson);
   console.log();
 
   // Call the simulation server.
   const response = await fetch("https://api.switchboard.xyz/api/test", {
     method: "POST",
     headers: [["Content-Type", "application/json"]],
-    body: JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) }),
+    body: jobJson,
   });
 
   // Check response.
