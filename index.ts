@@ -5,28 +5,68 @@ const jobs: OracleJob[] = [
   new OracleJob({
     tasks: [
       {
-        conditionalTask: {
-          attempt: [
+        cacheTask: {
+          cacheItems: [
             {
-              jupiterSwapTask: {
-                inTokenAddress: "WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk",
-                outTokenAddress: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-                baseAmount: 100_000,
-                slippage: 1, // NOTE: This is confusing, but it is already represented as a percent (1 === 1%)
+              variableName: "COINBASE_SOL_USDC",
+              job: {
+                tasks: [
+                  {
+                    httpTask: {
+                      url: "https://api.coinbase.com/v2/prices/sol-usdc/spot",
+                    },
+                  },
+                  {
+                    jsonParseTask: {
+                      path: "$.data.amount",
+                    },
+                  },
+                ],
               },
             },
             {
-              divideTask: {
-                scalar: 100_000,
+              variableName: "JUPITER_SOL_USDC",
+              job: {
+                tasks: [
+                  {
+                    jupiterSwapTask: {
+                      inTokenAddress:
+                        "So11111111111111111111111111111111111111112",
+                      outTokenAddress:
+                        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                      baseAmount: 100,
+                    },
+                  },
+                  {
+                    divideTask: {
+                      scalar: 100,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              variableName: "PYTHNET_SOL_USD",
+              job: {
+                tasks: [
+                  {
+                    oracleTask: {
+                      pythAddress:
+                        "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG",
+                    },
+                  },
+                ],
               },
             },
           ],
-          onFailure: [
-            {
-              lpExchangeRateTask: {
-                orcaPoolAddress: "CpbNcvqxXdQyQ3SRPDPSwLfzd9sgzBm8TjRFsfJL7Pf4",
-              },
-            },
+        },
+      },
+      {
+        medianTask: {
+          jobs: [
+            { tasks: [{ valueTask: { big: "${COINBASE_SOL_USDC}" } }] },
+            { tasks: [{ valueTask: { big: "${JUPITER_SOL_USDC}" } }] },
+            { tasks: [{ valueTask: { big: "${PYTHNET_SOL_USD}" } }] },
           ],
         },
       },
@@ -41,11 +81,18 @@ const jobs: OracleJob[] = [
   jobs.forEach((job) => console.log(job.toYaml()));
   console.log();
 
+  // Serialize the jobs to base64 strings.
+  const serializedJobs = jobs.map((oracleJob) => {
+    const encoded = OracleJob.encodeDelimited(oracleJob).finish();
+    const base64 = Buffer.from(encoded).toString("base64");
+    return base64;
+  });
+
   // Call the simulation server.
-  const response = await fetch("https://api.switchboard.xyz/api/test", {
+  const response = await fetch("https://api.switchboard.xyz/api/simulate", {
     method: "POST",
     headers: [["Content-Type", "application/json"]],
-    body: JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) }),
+    body: JSON.stringify({ cluster: "Mainnet", jobs: serializedJobs }),
   });
 
   // Check response.
@@ -55,5 +102,6 @@ const jobs: OracleJob[] = [
     console.log(JSON.stringify(data, null, 2));
   } else {
     console.log(chalk.redBright(`Response is bad (${response.status})`));
+    console.log(await response.text());
   }
 })();
