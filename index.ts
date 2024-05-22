@@ -78,7 +78,8 @@ const jobs: OracleJob[] = [
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
 
   // Print the jobs that are being run.
-  jobs.forEach((job) => console.log(job.toYaml()));
+  const jobJson = JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) });
+  console.log(jobJson);
   console.log();
 
   // Serialize the jobs to base64 strings.
