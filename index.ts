@@ -29,17 +29,25 @@ const jobs: OracleJob[] = [
               job: {
                 tasks: [
                   {
-                    jupiterSwapTask: {
-                      inTokenAddress:
-                        "So11111111111111111111111111111111111111112",
-                      outTokenAddress:
-                        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-                      baseAmount: 100,
+                    valueTask: {
+                      value: 1000,
                     },
                   },
                   {
                     divideTask: {
-                      scalar: 100,
+                      job: {
+                        tasks: [
+                          {
+                            jupiterSwapTask: {
+                              inTokenAddress:
+                                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                              outTokenAddress:
+                                "So11111111111111111111111111111111111111112",
+                              baseAmount: 1000,
+                            },
+                          },
+                        ],
+                      },
                     },
                   },
                 ],
