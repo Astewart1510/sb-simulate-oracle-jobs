@@ -1,4 +1,4 @@
-import { OracleJob } from "@switchboard-xyz/common";
+import { FeedHash, OracleJob } from "@switchboard-xyz/common";
 import chalk from "chalk";
 
 const jobs: OracleJob[] = [
@@ -97,8 +97,24 @@ const jobs: OracleJob[] = [
     return base64;
   });
 
+  const queueBytes = Buffer.from(
+    // "86807068432f186a147cf0b13a30067d386204ea9d6c8b04743ac2ef010b0752",
+    "d9cd6a04191d6cd559a5276e69a79cc6f95555deeae498c3a2f8b3ee670287d1",
+    "hex"
+  );
+  const feedHash = FeedHash.compute(queueBytes, jobs);
+  console.log("Feed Hash:", feedHash.toString("hex"));
+  console.log();
+
+  jobs.forEach((j) => {
+    console.log(
+      Buffer.from(OracleJob.encodeDelimited(j).finish()).toString("base64")
+    );
+  });
+  console.log();
+
   // Call the simulation server.
-  const response = await fetch("https://api.switchboard.xyz/api/simulate", {
+  const response = await fetch("https://simulator.switchboard.xyz/simulate", {
     method: "POST",
     headers: [["Content-Type", "application/json"]],
     body: JSON.stringify({ cluster: "Mainnet", jobs: serializedJobs }),
