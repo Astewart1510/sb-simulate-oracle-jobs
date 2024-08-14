@@ -5,77 +5,8 @@ const jobs: OracleJob[] = [
   new OracleJob({
     tasks: [
       {
-        cacheTask: {
-          cacheItems: [
-            {
-              variableName: "COINBASE_SOL_USDC",
-              job: {
-                tasks: [
-                  {
-                    httpTask: {
-                      url: "https://api.coinbase.com/v2/prices/sol-usdc/spot",
-                    },
-                  },
-                  {
-                    jsonParseTask: {
-                      path: "$.data.amount",
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              variableName: "JUPITER_SOL_USDC",
-              job: {
-                tasks: [
-                  {
-                    valueTask: {
-                      value: 1000,
-                    },
-                  },
-                  {
-                    divideTask: {
-                      job: {
-                        tasks: [
-                          {
-                            jupiterSwapTask: {
-                              inTokenAddress:
-                                "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-                              outTokenAddress:
-                                "So11111111111111111111111111111111111111112",
-                              baseAmount: 1000,
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              variableName: "PYTHNET_SOL_USD",
-              job: {
-                tasks: [
-                  {
-                    oracleTask: {
-                      pythAddress:
-                        "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG",
-                    },
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-      {
-        medianTask: {
-          jobs: [
-            { tasks: [{ valueTask: { big: "${COINBASE_SOL_USDC}" } }] },
-            { tasks: [{ valueTask: { big: "${JUPITER_SOL_USDC}" } }] },
-            { tasks: [{ valueTask: { big: "${PYTHNET_SOL_USD}" } }] },
-          ],
+        httpTask: {
+          url: "https://rest-v1.volmex.finance/public/iv/streaming",
         },
       },
     ],

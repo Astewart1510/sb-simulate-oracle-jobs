@@ -18,7 +18,7 @@ const print = (oracleJob: OracleJob) => {
 
 (() => {
   const oracleJob = new OracleJob({
-    tasks: [{ valueTask: { value: 1337 } }],
+    tasks: [{ unixTimeTask: {} }],
   });
   print(oracleJob);
 })();
