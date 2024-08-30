@@ -4,10 +4,11 @@
   "module": "index.ts",
   "scripts": {},
   "dependencies": {
-    "@switchboard-xyz/common": "^2.4.5",
+    "@switchboard-xyz/common": "^2.4.7",
     "chalk": "^5.3.0"
   },
   "devDependencies": {
+    "sort-package-json": "latest",
     "@types/bun": "latest"
   },
   "peerDependencies": {

@@ -4,5 +4,5 @@ To execute:
 
 ```ts
 bun install
-bun run index.ts
+bun run src/index.ts
 ```

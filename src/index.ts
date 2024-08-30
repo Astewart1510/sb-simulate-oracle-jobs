@@ -1,24 +1,13 @@
 import { FeedHash, OracleJob } from "@switchboard-xyz/common";
 import chalk from "chalk";
-
-const jobs: OracleJob[] = [
-  new OracleJob({
-    tasks: [
-      {
-        httpTask: {
-          url: "https://rest-v1.volmex.finance/public/iv/streaming",
-        },
-      },
-    ],
-  }),
-];
+import { jobs } from "./jobs";
 
 (async () => {
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
 
   // Print the jobs that are being run.
   const jobJson = JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) });
-  console.log(jobJson);
+  console.log("Job Json:\n", jobJson);
   console.log();
 
   // Serialize the jobs to base64 strings.
@@ -34,7 +23,7 @@ const jobs: OracleJob[] = [
     "hex"
   );
   const feedHash = FeedHash.compute(queueBytes, jobs);
-  console.log("Feed Hash:", feedHash.toString("hex"));
+  console.log("Feed Hash:\n", feedHash.toString("hex"));
   console.log();
 
   jobs.forEach((j) => {
