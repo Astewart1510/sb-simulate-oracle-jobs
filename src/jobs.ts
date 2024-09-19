@@ -4,36 +4,83 @@ export const jobs: OracleJob[] = [
   OracleJob.create({
     tasks: [
       {
-        cacheTask: {
-          cacheItems: [
-            {
-              variableName: "ST_CORE_HEX",
-              job: {
-                tasks: [
-                  {
-                    httpTask: {
-                      url: "https://rpc.coredao.org/",
-                      method: 2,
-                      headers: [
-                        { key: "content-type", value: "application/json" },
-                      ],
-                      body: '{"jsonrpc":"2.0","id":1,"method":"eth_call","params":[{"to":"0xf5fa1728babc3f8d2a617397fac2696c958c3409","data":"0x3ca967f3"},"latest"]}',
-                    },
-                  },
-                  {
-                    jsonParseTask: {
-                      path: "$.result",
-                    },
-                  },
-                ],
-              },
-            },
-          ],
+        oracleTask: {
+          pythAddress:
+            "e62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+          pythConfigs: {
+            pythAllowedConfidenceInterval: 1,
+          },
+        },
+      },
+    ],
+  }),
+  OracleJob.create({
+    tasks: [
+      {
+        httpTask: {
+          url: "https://www.okx.com/api/v5/market/index-tickers?quoteCcy=USD",
         },
       },
       {
+        jsonParseTask: {
+          path: '$.data[?(@.instId == "BTC-USD")].idxPx',
+        },
+      },
+    ],
+  }),
+  OracleJob.create({
+    tasks: [
+      {
         valueTask: {
-          hex: "0x0000000000000010c7ee",
+          value: 1,
+        },
+      },
+      {
+        divideTask: {
+          job: {
+            tasks: [
+              {
+                httpTask: {
+                  url: "https://api.coinbase.com/v2/exchange-rates?currency=USD",
+                  headers: [
+                    {
+                      key: "Accept",
+                      value: "application/json",
+                    },
+                    {
+                      key: "User-Agent",
+                      value: "Mozilla/5.0",
+                    },
+                  ],
+                },
+              },
+              {
+                jsonParseTask: {
+                  path: "$.data.rates.BTC",
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  }),
+  OracleJob.create({
+    tasks: [
+      {
+        oracleTask: {
+          chainlinkAddress: "0x942d00008D658dbB40745BBEc89A93c253f9B882",
+          chainlinkConfigs: {},
+        },
+      },
+    ],
+  }),
+  OracleJob.create({
+    tasks: [
+      {
+        oracleTask: {
+          edgeId: "BTC/USD",
+          edgeConfigs: {},
         },
       },
     ],
