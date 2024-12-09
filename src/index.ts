@@ -1,4 +1,4 @@
-import { FeedHash, OracleJob } from "@switchboard-xyz/common";
+import { FeedHash, OracleJob, CrossbarClient } from "@switchboard-xyz/common";
 import chalk from "chalk";
 import { jobs } from "./jobs";
 
@@ -33,8 +33,10 @@ import { jobs } from "./jobs";
   });
   console.log();
 
+  const simulatePath = "http://staging.simulator.switchboard.xyz/simulate";
   // Call the simulation server.
-  const response = await fetch("https://simulator.switchboard.xyz/simulate", {
+  console.log("Simulating on", simulatePath, "\n");
+  const response = await fetch(simulatePath, {
     method: "POST",
     headers: [["Content-Type", "application/json"]],
     body: JSON.stringify({ cluster: "Mainnet", jobs: serializedJobs }),
