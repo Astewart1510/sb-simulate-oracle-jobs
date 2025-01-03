@@ -1,4 +1,4 @@
-import { FeedHash, OracleJob, CrossbarClient } from "@switchboard-xyz/common";
+import { FeedHash, OracleJob } from "@switchboard-xyz/common";
 import chalk from "chalk";
 import { jobs } from "./jobs";
 
@@ -7,7 +7,8 @@ import { jobs } from "./jobs";
 
   // Print the jobs that are being run.
   const jobJson = JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) });
-  console.log("Job Json:\n", jobJson);
+  console.log(chalk.bold.yellowBright("Job Json:"));
+  console.log(`  ${jobJson}`);
   console.log();
 
   // Serialize the jobs to base64 strings.
@@ -23,13 +24,15 @@ import { jobs } from "./jobs";
     "hex"
   );
   const feedHash = FeedHash.compute(queueBytes, jobs);
-  console.log("Feed Hash:\n", feedHash.toString("hex"));
+  console.log(chalk.bold.yellowBright("Feed Hash:"));
+  console.log(`  ${feedHash.toString("hex")}`);
   console.log();
 
-  jobs.forEach((j) => {
-    console.log(
-      Buffer.from(OracleJob.encodeDelimited(j).finish()).toString("base64")
-    );
+  console.log(chalk.bold.yellowBright("Serialized Job Datas:"));
+  jobs.forEach((j, idx) => {
+    const encoded = OracleJob.encodeDelimited(j).finish();
+    const b64 = Buffer.from(encoded).toString("base64");
+    console.log(`  ${idx} - ${b64}`);
   });
   console.log();
 
