@@ -54,9 +54,9 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
 
   // Print the jobs that are being run.
-  const jobJson = JSON.stringify({ jobs: jobs.map((job) => job.toJSON()) });
+  const jobJson = jobs.map((job) => JSON.stringify(job.toJSON())).join("\n");
   console.log(chalk.bold.yellowBright("Job Json:"));
-  console.log(`  ${jobJson}`);
+  console.log(jobJson);
   console.log();
 
   // Serialize the jobs to base64 strings.
