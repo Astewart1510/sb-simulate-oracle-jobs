@@ -1,8 +1,56 @@
-import { FeedHash, OracleJob } from "@switchboard-xyz/common";
+import {
+  CrossbarClient,
+  decodeString,
+  FeedHash,
+  OracleJob,
+} from "@switchboard-xyz/common";
 import chalk from "chalk";
 import { jobs } from "./jobs";
+import {
+  ON_DEMAND_DEVNET_QUEUE,
+  ON_DEMAND_MAINNET_QUEUE,
+} from "@switchboard-xyz/on-demand";
+
+type Environment = {
+  simulatorUrl: string;
+  crossbarUrl: string;
+};
+
+const isLocal = process.argv.includes("--local");
+const isStaging = process.argv.includes("--staging");
+const isDevnet = process.argv.includes("--devnet");
+
+const environments: Record<string, Environment> = {
+  local: {
+    simulatorUrl: "http://localhost:8080",
+    crossbarUrl: "http://localhost:8081",
+  },
+  staging: {
+    simulatorUrl: "http://staging.simulator.switchboard.xyz",
+    crossbarUrl: "https://staging.crossbar.switchboard.xyz",
+  },
+  production: {
+    simulatorUrl: "https://simulator.switchboard.xyz",
+    crossbarUrl: "https://crossbar.switchboard.xyz",
+  },
+};
+
+const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
 
 (async () => {
+  console.log();
+  const env = (() => {
+    if (isLocal) {
+      console.log(chalk.bold.redBright("Using LOCAL environment..."));
+      return environments.local;
+    } else if (isStaging) {
+      console.log(chalk.bold.yellowBright("Using STAGING environment..."));
+      return environments.staging;
+    }
+    console.log(chalk.bold.greenBright("Using PRODUCTION environment..."));
+    return environments.production;
+  })();
+
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
 
   // Print the jobs that are being run.
@@ -18,11 +66,7 @@ import { jobs } from "./jobs";
     return base64;
   });
 
-  const queueBytes = Buffer.from(
-    // "86807068432f186a147cf0b13a30067d386204ea9d6c8b04743ac2ef010b0752",
-    "d9cd6a04191d6cd559a5276e69a79cc6f95555deeae498c3a2f8b3ee670287d1",
-    "hex"
-  );
+  const queueBytes = Buffer.from(queuePubkey.toBytes());
   const feedHash = FeedHash.compute(queueBytes, jobs);
   console.log(chalk.bold.yellowBright("Feed Hash:"));
   console.log(`  ${feedHash.toString("hex")}`);
@@ -36,9 +80,9 @@ import { jobs } from "./jobs";
   });
   console.log();
 
-  const simulatePath = "http://staging.simulator.switchboard.xyz/simulate";
+  const simulatePath = `${env.simulatorUrl}/simulate`;
   // Call the simulation server.
-  console.log("Simulating on", simulatePath, "\n");
+  console.log("Simulating on", simulatePath);
   const response = await fetch(simulatePath, {
     method: "POST",
     headers: [["Content-Type", "application/json"]],
@@ -54,4 +98,13 @@ import { jobs } from "./jobs";
     console.log(chalk.redBright(`Response is bad (${response.status})`));
     console.log(await response.text());
   }
+
+  const client = new CrossbarClient(env.crossbarUrl);
+  const expectedFeedHash = FeedHash.compute(queueBytes, jobs);
+  const blah = await client.store(queuePubkey.toBase58(), jobs);
+  console.log();
+  console.log("Feedhash (Expected):", `0x` + expectedFeedHash.toString("hex"));
+  console.log("Feedhash (Actual):  ", blah.feedHash);
+  const simulate = await client.simulateFeeds([blah.feedHash]);
+  console.log(JSON.stringify(simulate, null, 2));
 })();
