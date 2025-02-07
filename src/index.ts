@@ -59,6 +59,12 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
   console.log(jobJson);
   console.log();
 
+  // Print the jobs that are being run.
+  const jobYaml = jobs.map((job) => job.toYaml()).join("\n");
+  console.log(chalk.bold.yellowBright("Job Yaml:"));
+  console.log(jobYaml);
+  console.log();
+
   // Serialize the jobs to base64 strings.
   const serializedJobs = jobs.map((oracleJob) => {
     const encoded = OracleJob.encodeDelimited(oracleJob).finish();
