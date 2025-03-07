@@ -25,5 +25,6 @@ export const jobs: OracleJob[] = [
         },
       },
     ],
+    weight: 69,
   }),
 ];

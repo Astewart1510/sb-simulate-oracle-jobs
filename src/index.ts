@@ -86,36 +86,31 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
   });
   console.log();
 
-  // const simulatePath = `${env.simulatorUrl}/simulate`;
-  // // Call the simulation server.
-  // console.log("Simulating on", simulatePath);
-  // const response = await fetch(simulatePath, {
-  //   method: "POST",
-  //   headers: [["Content-Type", "application/json"]],
-  //   body: JSON.stringify({
-  //     cluster: isDevnet ? "Devnet" : "Mainnet",
-  //     jobs: serializedJobs,
-  //   }),
-  // });
+  const simulatePath = `${env.simulatorUrl}/simulate`;
+  // Call the simulation server.
+  console.log("Simulating on", simulatePath);
+  const response = await fetch(simulatePath, {
+    method: "POST",
+    headers: [["Content-Type", "application/json"]],
+    body: JSON.stringify({
+      cluster: isDevnet ? "Devnet" : "Mainnet",
+      jobs: serializedJobs,
+    }),
+  });
 
-  // // Check response.
-  // if (response.ok) {
-  //   const data = await response.json();
-  //   console.log(chalk.greenBright(`Response is good (${response.status})`));
-  //   console.log(JSON.stringify(data, null, 2));
-  // } else {
-  //   console.log(chalk.redBright(`Response is bad (${response.status})`));
-  //   console.log(await response.text());
-  // }
-  // console.log();
+  // Check response.
+  if (response.ok) {
+    const data = await response.json();
+    console.log(chalk.greenBright(`Response is good (${response.status})`));
+    console.log(JSON.stringify(data, null, 2));
+  } else {
+    console.log(chalk.redBright(`Response is bad (${response.status})`));
+    console.log(await response.text());
+  }
+  console.log();
 
   // Call the Crossbar server.
   console.log("Using Crossbar on", env.crossbarUrl);
-  console.log("  queue:", queuePubkey.toBase58());
-  console.log(
-    "  jobs:",
-    jobs.map((j) => j.toJSON())
-  );
   const client = new CrossbarClient(env.crossbarUrl, true);
   const expectedFeedHash = FeedHash.compute(queueBytes, jobs);
   const blah = await client.store(
@@ -125,5 +120,12 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
   console.log("Feedhash (Expected):", `0x` + expectedFeedHash.toString("hex"));
   console.log("Feedhash (Actual):  ", blah.feedHash);
   const simulate = await client.simulateFeeds([blah.feedHash]);
-  console.log(JSON.stringify(simulate, null, 2));
+
+  console.log(
+    JSON.stringify(
+      simulate.map((s) => s.results),
+      null,
+      2
+    )
+  );
 })();
