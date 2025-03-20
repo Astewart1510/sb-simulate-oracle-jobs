@@ -1,9 +1,4 @@
-import {
-  CrossbarClient,
-  decodeString,
-  FeedHash,
-  OracleJob,
-} from "@switchboard-xyz/common";
+import { CrossbarClient, FeedHash, OracleJob } from "@switchboard-xyz/common";
 import chalk from "chalk";
 import { jobs } from "./jobs";
 import {

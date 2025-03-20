@@ -17,14 +17,14 @@ const print = (oracleJob: OracleJob) => {
 };
 
 (() => {
-  const oracleJob = new OracleJob({
+  const oracleJob = OracleJob.fromObject({
     tasks: [{ unixTimeTask: {} }],
   });
   print(oracleJob);
 })();
 
 (() => {
-  const oracleJob = new OracleJob({
+  const oracleJob = OracleJob.fromObject({
     tasks: [{ httpTask: { url: "https://google.com" } }],
   });
   print(oracleJob);

@@ -19,9 +19,10 @@ export const jobs: OracleJob[] = [
   OracleJob.create({
     tasks: [
       {
-        lstHistoricalYieldTask: {
-          lstMint: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
-          operation: OracleJob.LstHistoricalYieldTask.Operation.OPERATION_MEAN,
+        pumpAmmTask: {
+          poolAddress: "Gf7sXMoP8iRw4iiXmJ1nq4vxcRycbGXy5RL8a8LnTd3v",
+          maxSlippage: 5,
+          isXForY: false,
         },
       },
     ],
