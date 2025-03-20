@@ -5,7 +5,7 @@
   "scripts": {},
   "dependencies": {
     "@switchboard-xyz/on-demand": "^2.3.5",
-    "@switchboard-xyz/common": "^3.0.8",
+    "@switchboard-xyz/common": "^3.0.10",
     "chalk": "^5.4.1"
   },
   "devDependencies": {

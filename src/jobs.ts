@@ -22,6 +22,7 @@ export const jobs: OracleJob[] = [
         pumpAmmTask: {
           poolAddress: "Gf7sXMoP8iRw4iiXmJ1nq4vxcRycbGXy5RL8a8LnTd3v",
           maxSlippage: 5,
+          inAmount: 2,
           isXForY: false,
         },
       },
