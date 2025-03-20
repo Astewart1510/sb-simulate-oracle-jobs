@@ -4,8 +4,8 @@
     "": {
       "name": "sb-simulate-oracle-jobs",
       "dependencies": {
-        "@switchboard-xyz/common": "^3.0.10",
-        "@switchboard-xyz/on-demand": "^2.3.5",
+        "@switchboard-xyz/common": "^3.0.11",
+        "@switchboard-xyz/on-demand": "^2.3.6",
         "chalk": "^5.4.1",
       },
       "devDependencies": {
@@ -58,9 +58,9 @@
 
     "@swc/helpers": ["@swc/helpers@0.5.15", "", { "dependencies": { "tslib": "^2.8.0" } }, "sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g=="],
 
-    "@switchboard-xyz/common": ["@switchboard-xyz/common@3.0.10", "", { "dependencies": { "@solana/web3.js": "^1.98.0", "axios": "^1.8.3", "big.js": "^6.2.2", "bn.js": "^5.2.1", "bs58": "^6.0.0", "buffer": "^6.0.3", "decimal.js": "^10.4.3", "js-sha256": "^0.11.0", "protobufjs": "^7.4.0", "yaml": "^2.6.1" } }, "sha512-Tzop16d9t1J1PyF4Qfm7lqZZ4bF4KoJPj7g5CQye2JkwQ3vtxAGeHpAe8o8rGjj7ytWGYkq0FxZLChYCYhYWFQ=="],
+    "@switchboard-xyz/common": ["@switchboard-xyz/common@3.0.11", "", { "dependencies": { "@solana/web3.js": "^1.98.0", "axios": "^1.8.3", "big.js": "^6.2.2", "bn.js": "^5.2.1", "bs58": "^6.0.0", "buffer": "^6.0.3", "decimal.js": "^10.4.3", "js-sha256": "^0.11.0", "protobufjs": "^7.4.0", "yaml": "^2.6.1" } }, "sha512-rRaBjJAvkR1gTGbkoykHLySSr7kjS7UgDpJBOni+0DkFqyh+SwkcxT1RmjhReAMqxZ5qvO88WNGMdF6IKsGXcA=="],
 
-    "@switchboard-xyz/on-demand": ["@switchboard-xyz/on-demand@2.3.5", "", { "dependencies": { "@coral-xyz/anchor-30": "npm:@coral-xyz/anchor@0.30.1", "@isaacs/ttlcache": "^1.4.1", "@switchboard-xyz/common": "^3", "axios": "^1.8.3", "bs58": "^6.0.0", "buffer": "^6.0.3", "js-yaml": "^4.1.0" } }, "sha512-5LY66Qsl4CeNb2D5o/am8FK2rmYEWdgSwLuAohJx+obLJa53S7N5es/VWO6TPqFyRdT044ZojkjzAS6HOVoLiA=="],
+    "@switchboard-xyz/on-demand": ["@switchboard-xyz/on-demand@2.3.6", "", { "dependencies": { "@coral-xyz/anchor-30": "npm:@coral-xyz/anchor@0.30.1", "@isaacs/ttlcache": "^1.4.1", "@switchboard-xyz/common": ">=3.0.0", "axios": "^1.8.3", "bs58": "^6.0.0", "buffer": "^6.0.3", "js-yaml": "^4.1.0" } }, "sha512-iK3zLyX83eey5uSsdbSnHs/IwFY9Je3F6NB1hfacasAsypmiDDqfIahM7PtEKg7U/C2V5APJayrZIqEM0AVBmw=="],
 
     "@types/bun": ["@types/bun@1.2.5", "", { "dependencies": { "bun-types": "1.2.5" } }, "sha512-w2OZTzrZTVtbnJew1pdFmgV99H0/L+Pvw+z1P67HaR18MHOzYnTYOi6qzErhK8HyT+DB782ADVPPE92Xu2/Opg=="],
 
