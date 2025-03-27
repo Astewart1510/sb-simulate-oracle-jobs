@@ -19,28 +19,8 @@ export const jobs: OracleJob[] = [
   OracleJob.create({
     tasks: [
       {
-        pumpAmmLpTokenPriceTask: {
-          poolAddress: "Gf7sXMoP8iRw4iiXmJ1nq4vxcRycbGXy5RL8a8LnTd3v",
-          xPriceJob: {
-            tasks: [
-              {
-                oracleTask: {
-                  switchboardAddress:
-                    "GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR",
-                },
-              },
-            ],
-          },
-          yPriceJob: {
-            tasks: [
-              {
-                oracleTask: {
-                  switchboardAddress:
-                    "GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR",
-                },
-              },
-            ],
-          },
+        exponentTask: {
+          vault: "9YbaicMsXrtupkpD72pdWBfU6R7EJfSByw75sEpDM1uH",
         },
       },
     ],
