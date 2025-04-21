@@ -90,6 +90,7 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
     body: JSON.stringify({
       cluster: isDevnet ? "Devnet" : "Mainnet",
       jobs: serializedJobs,
+      // include_receipts: true,
     }),
   });
 
@@ -112,8 +113,12 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
     queuePubkey.toBase58(),
     jobs.map((j) => j.toJSON())
   );
-  console.log("Feedhash (Expected):", `0x` + expectedFeedHash.toString("hex"));
+
+  const expected = `0x` + expectedFeedHash.toString("hex");
+  const match = expected === blah.feedHash;
+  console.log("Feedhash (Expected):", expected);
   console.log("Feedhash (Actual):  ", blah.feedHash);
+  console.log(match ? chalk.greenBright("Match") : chalk.redBright("No Match"));
   const simulate = await client.simulateFeeds([blah.feedHash]);
 
   console.log(

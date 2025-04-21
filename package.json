@@ -4,8 +4,8 @@
   "module": "index.ts",
   "scripts": {},
   "dependencies": {
-    "@switchboard-xyz/on-demand": "^2.3.5",
-    "@switchboard-xyz/common": "^3.0.10",
+    "@switchboard-xyz/on-demand": "^2.4.1",
+    "@switchboard-xyz/common": "^3.0.14",
     "chalk": "^5.4.1"
   },
   "devDependencies": {
@@ -13,6 +13,6 @@
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "^5.8.2"
   }
 }
