@@ -19,12 +19,25 @@ export const jobs: OracleJob[] = [
   OracleJob.create({
     tasks: [
       {
-        exponentTask: {
-          vault: "9YbaicMsXrtupkpD72pdWBfU6R7EJfSByw75sEpDM1uH",
+        curveFinanceTask: {
+          poolAddress: "0xb92B054b9CC33685e7F8c3f85177C4b6DC061391",
+        },
+      },
+      {
+        multiplyTask: {
+          job: {
+            tasks: [
+              {
+                oracleTask: {
+                  pythAddress:
+                    "0x9d4294bbcd1174d6f2003ec365831e64cc31d9f6f15a2b85399db8d5000960f6",
+                },
+              },
+            ],
+          },
         },
       },
     ],
-    weight: 69,
   }),
 ];
 
