@@ -1,6 +1,6 @@
 import { CrossbarClient, FeedHash, OracleJob } from "@switchboard-xyz/common";
 import chalk from "chalk";
-import { jobs } from "./jobs";
+import { jobs, job2 } from "./jobs";
 import {
   ON_DEMAND_DEVNET_QUEUE,
   ON_DEMAND_MAINNET_QUEUE,
@@ -47,6 +47,8 @@ const queuePubkey = isDevnet ? ON_DEMAND_DEVNET_QUEUE : ON_DEMAND_MAINNET_QUEUE;
   })();
 
   console.log(chalk.bold.yellowBright("Running simulation...\n"));
+
+  const jobs = [job2];
 
   // Print the jobs that are being run.
   const jobJson = jobs.map((job) => JSON.stringify(job.toJSON())).join("\n");

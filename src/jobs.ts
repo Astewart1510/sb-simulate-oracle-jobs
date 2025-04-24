@@ -27,3 +27,23 @@ export const jobs: OracleJob[] = [
     weight: 69,
   }),
 ];
+
+export const job2 = buildBinanceJob("BTCUSDT");
+
+export function buildBinanceJob(pair: string): OracleJob {
+  const jobConfig = {
+    tasks: [
+      {
+        httpTask: {
+          url: `https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT`,
+        },
+      },
+      {
+        jsonParseTask: {
+          path: `$[?(@.symbol == '${pair}')].price`,
+        },
+      },
+    ],
+  };
+  return OracleJob.fromObject(jobConfig);
+}
